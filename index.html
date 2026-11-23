@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vilunes Pilates | Fisioterapia e Pilates no Nova Petrópolis - SBC</title>
+    <meta name="description" content="Estúdio de Pilates conduzido por fisioterapeutas no Bairro Nova Petrópolis, São Bernardo do Campo - SP. Alívio de dores, postura e saúde mental. Aceitamos Wellhub e TotalPass.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome CDN for Crisp Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Leaflet JS & CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            deep: '#0B465F',     /* Azul-Marinho / Petróleo Profundo */
+                            slate: '#5A7396',    /* Azul-Acinzentado Suave */
+                            terracotta: '#A4603C',/* Tom Terroso Acolhedor */
+                            wood: '#C89D6C',      /* Madeira Clara */
+                            offwhite: '#FAF9F6',  /* Off-White Claríssimo */
+                            dark: '#072836',
+                        },
+                        wa: {
+                            DEFAULT: '#25D366',
+                            hover: '#1EBE5B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        title: ['Plus Jakarta Sans', 'sans-serif'],
+                        cursive: ['Great Vibes', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar and animations */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF9F6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #5A7396;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0B465F;
+        }
+        
+        .bg-pattern {
+            background-color: #FAF9F6;
+            background-image: radial-gradient(#5A7396 0.5px, transparent 0.5px), radial-gradient(#5A7396 0.5px, #FAF9F6 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            background-opacity: 0.15;
+        }
+
+        .shadow-soft {
+            box-shadow: 0 10px 30px -5px rgba(11, 70, 95, 0.08);
+        }
+        .shadow-glow {
+            box-shadow: 0 12px 35px -5px rgba(37, 211, 102, 0.35);
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .pulse-online {
+            animation: pulse-ring 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-brand-offwhite text-slate-800 font-sans antialiased selection:bg-brand-terracotta selection:text-white">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-brand-deep text-white text-xs sm:text-sm py-2 px-4 text-center font-medium border-b border-brand-slate/20">
+        <div class="max-w-7xl mx-auto flex items-center justify-center gap-2 flex-wrap">
+            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/10 text-brand-wood text-xs font-semibold">
+                <i class="fa-solid fa-map-pin text-xs"></i> Nova Petrópolis • SBC
+            </span>
+            <span>Estúdio Novo com Atendimento 100% Fisioterapêutico &bull; Wellhub & TotalPass Aceitos</span>
+            <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Vilunes%20Pilates%20e%20gostaria%20de%20agendar%20minha%20aula%20experimental%20gratuita." target="_blank" class="underline hover:text-brand-wood font-semibold ml-1">
+                Agende sua Aula Grátis &rarr;
+            </a>
+        </div>
+    </div>
+
+    <!-- HEADER FIXO (Logo no CANTO SUPERIOR DIREITO) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- ESQUERDA & CENTRO: Navegação & CTA principal -->
+            <div class="flex items-center gap-6 lg:gap-8">
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden text-brand-deep p-2 focus:outline-none" aria-label="Abrir Menu">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700">
+                    <a href="#beneficios" class="hover:text-brand-deep transition-colors">Para Quem É</a>
+                    <a href="#modalidades" class="hover:text-brand-deep transition-colors">Modalidades</a>
+                    <a href="#estrutura" class="hover:text-brand-deep transition-colors">Nosso Estúdio</a>
+                    <a href="#sobre" class="hover:text-brand-deep transition-colors">Sobre Nós</a>
+                    <a href="#localizacao" class="hover:text-brand-deep transition-colors">Localização</a>
+                    <a href="#faq" class="hover:text-brand-deep transition-colors">Dúvidas</a>
+                </nav>
+            </div>
+
+            <!-- BOTÃO CONVERSÃO HEADER + LOGO CANTO SUPERIOR DIREITO -->
+            <div class="flex items-center gap-4 sm:gap-6">
+                <!-- CTA Header Desktop -->
+                <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Vilunes%20Pilates%20e%20gostaria%20de%20agendar%20minha%20aula%20experimental%20gratuita." 
+                   target="_blank" 
+                   class="hidden md:inline-flex items-center gap-2 bg-wa hover:bg-wa-hover text-white px-4 py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all transform hover:scale-105 shadow-md">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Aula Grátis</span>
+                </a>
+
+                <!-- LOGO OFICIAL VILUNES PILATES (CANTO SUPERIOR DIREITO DO HEADER) -->
+                <a href="#" class="flex items-center gap-2 group border-l border-gray-100 pl-4 sm:pl-6" title="Vilunes Pilates - Início">
+                    <div class="bg-white p-1 rounded-xl shadow-xs border border-gray-100 flex items-center justify-center">
+                        <!-- LOGO OFICIAL SVG VETORIAL HIGH-PRECISION FALLBACK -->
+                        <svg class="w-10 h-10 sm:w-12 sm:h-12" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background soft badge -->
+                            <rect width="200" height="200" rx="36" fill="#FFFFFF"/>
+                            <!-- Fluid motion background swooshes -->
+                            <path d="M 30,145 Q 80,185 170,140 Q 120,110 30,145 Z" fill="#5A7396" opacity="0.18" />
+                            <path d="M 20,130 C 60,70 140,60 180,120 C 130,170 60,160 20,130 Z" fill="#0B465F" opacity="0.08"/>
+                            
+                            <!-- Balanced Silhouette Woman Pilates Pose (Forearm Balance V-Legs) -->
+                            <!-- Fluid Spine & Torso -->
+                            <path d="M 95,115 C 92,95 98,80 102,70 C 105,62 104,50 96,40 C 94,37 96,33 100,34 C 108,37 114,46 112,56 C 110,65 106,78 102,95 C 100,105 103,115 108,122 Z" fill="#0B465F"/>
+                            <!-- Head & Curly Hair Outline -->
+                            <circle cx="88" cy="38" r="9" fill="#A4603C"/>
+                            <!-- Curly hair volume bumps -->
+                            <circle cx="83" cy="34" r="5" fill="#0B465F"/>
+                            <circle cx="85" cy="29" r="4.5" fill="#0B465F"/>
+                            <circle cx="90" cy="30" r="4" fill="#0B465F"/>
+                            <circle cx="81" cy="40" r="4" fill="#0B465F"/>
+
+                            <!-- Forearms and Arms on Mat (Base Balance) -->
+                            <path d="M 102,75 L 82,90 L 70,112 C 68,115 72,118 75,115 L 88,96 L 102,83 Z" fill="#0B465F"/>
+                            <path d="M 104,78 L 120,94 L 132,114 C 135,117 139,114 136,110 L 122,90 L 106,75 Z" fill="#0B465F"/>
+
+                            <!-- Elegant V-Split Legs -->
+                            <!-- Left Leg -->
+                            <path d="M 104,118 C 90,132 68,142 42,148 C 38,149 37,143 41,141 C 66,132 88,120 100,112 Z" fill="#0B465F"/>
+                            <!-- Right Leg -->
+                            <path d="M 106,118 C 122,130 146,140 172,146 C 176,147 177,141 173,139 C 148,131 124,119 108,112 Z" fill="#0B465F"/>
+                            
+                            <!-- Elegant Fluid Line Accent -->
+                            <path d="M 25,152 Q 100,178 175,152" stroke="#5A7396" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-cursive text-2xl sm:text-3xl text-brand-deep leading-none font-bold tracking-wide">Vilunes</span>
+                        <span class="font-title text-[9px] sm:text-[10px] font-bold text-brand-slate tracking-[0.25em] uppercase leading-tight">PILATES</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-gray-200 px-4 pt-2 pb-6 space-y-3">
+            <a href="#beneficios" class="block py-2 text-gray-700 font-medium hover:text-brand-deep">Para Quem É</a>
+            <a href="#modalidades" class="block py-2 text-gray-700 font-medium hover:text-brand-deep">Modalidades</a>
+            <a href="#estrutura" class="block py-2 text-gray-700 font-medium hover:text-brand-deep">Nosso Estúdio</a>
+            <a href="#sobre" class="block py-2 text-gray-700 font-medium hover:text-brand-deep">Sobre Nós</a>
+            <a href="#localizacao" class="block py-2 text-gray-700 font-medium hover:text-brand-deep">Localização</a>
+            <a href="#faq" class="block py-2 text-gray-700 font-medium hover:text-brand-deep">Dúvidas</a>
+            <div class="pt-2">
+                <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Vilunes%20Pilates%20e%20gostaria%20de%20agendar%20minha%20aula%20experimental%20gratuita." 
+                   target="_blank" 
+                   class="w-full flex items-center justify-center gap-2 bg-wa hover:bg-wa-hover text-white py-3 rounded-xl font-bold shadow">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    Agendar Aula Experimental Grátis
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION (DOBRA 1 - CRO & HIARARQUIA LINEAR MOBILE E DESKTOP) -->
+    <section class="relative bg-pattern pt-8 pb-16 lg:pt-16 lg:pb-24 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- COLUNA ESQUERDA: COPYWRITING & CONVERSÃO -->
+                <div class="lg:col-span-7 flex flex-col items-start space-y-5 text-left">
+                    
+                    <!-- SELO DE LOCALIZAÇÃO -->
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-deep/10 text-brand-deep font-semibold text-xs sm:text-sm border border-brand-deep/20">
+                        <i class="fa-solid fa-location-dot text-brand-terracotta"></i>
+                        <span>Nova Petrópolis • São Bernardo do Campo – SP</span>
+                    </div>
+
+                    <!-- HEADLINE -->
+                    <h1 class="font-title text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-deep leading-tight">
+                        Alivie dores, ganhe força e desacelere a mente com Pilates conduzido por <span class="text-brand-terracotta underline decoration-brand-wood/40 decoration-wavy">fisioterapeutas.</span>
+                    </h1>
+
+                    <!-- SUBTÍTULO -->
+                    <p class="text-base sm:text-lg text-gray-600 leading-relaxed font-normal">
+                        Sessões com hora marcada em aparelhos clássicos e solo no <strong>Nova Petrópolis (SBC)</strong>. Estrutura nova, acompanhamento clínico individualizado e aceitação de <strong>Wellhub</strong> e <strong>TotalPass</strong>.
+                    </p>
+
+                    <!-- BADGES VISUAIS (WELLHUB, TOTALPASS, AULA GRÁTIS) -->
+                    <div class="flex flex-wrap items-center gap-2 sm:gap-3 pt-1">
+                        <span class="inline-flex items-center gap-1.5 bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-xs font-bold text-gray-800 shadow-xs">
+                            <i class="fa-solid fa-square-check text-brand-deep"></i> Wellhub (Gympass)
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-xs font-bold text-gray-800 shadow-xs">
+                            <i class="fa-solid fa-square-check text-brand-deep"></i> TotalPass
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 bg-brand-wood/15 border border-brand-wood/40 px-3 py-1.5 rounded-lg text-xs font-bold text-brand-deep shadow-xs">
+                            <i class="fa-solid fa-gift text-brand-terracotta"></i> 1ª Aula Experimental 100% Grátis
+                        </span>
+                    </div>
+
+                    <!-- BOTÃO PRINCIPAL WHATSAPP & MICROCOPY -->
+                    <div class="w-full pt-3 space-y-2">
+                        <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Vilunes%20Pilates%20e%20gostaria%20de%20agendar%20minha%20aula%20experimental%20gratuita." 
+                           target="_blank" 
+                           class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-wa hover:bg-wa-hover text-white text-base sm:text-lg font-bold px-8 py-4 rounded-2xl shadow-glow transition-all transform hover:-translate-y-0.5">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            <span>Agendar Minha Aula Experimental Grátis</span>
+                        </a>
+                        
+                        <p class="text-xs sm:text-sm text-gray-500 flex items-center gap-1.5 pt-1">
+                            <i class="fa-solid fa-circle-check text-wa text-xs"></i>
+                            <span>Aula experimental gratuita • Resposta rápida no WhatsApp</span>
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- COLUNA DIREITA: CARD VISUAL DO ESTÚDIO COM LOGO OFICIAL -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white">
+                        
+                        <!-- STUDIO IMAGE WITH FALLBACK -->
+                        <div class="relative h-80 sm:h-96 w-full bg-brand-deep overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Vilunes Pilates Nova Petrópolis SBC - Aparelhos Reformer e Cadillac" 
+                                 class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/800x600/0B465F/FFFFFF?text=Vilunes+Pilates+Estudio';">
+                            
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-deep/90 via-brand-deep/30 to-transparent"></div>
+                            
+                            <!-- LOGO OFICIAL OVERLAY CARD -->
+                            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-lg border border-gray-100 flex items-center gap-3">
+                                <svg class="w-9 h-9" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M 30,145 Q 80,185 170,140 Q 120,110 30,145 Z" fill="#5A7396" opacity="0.2" />
+                                    <path d="M 95,115 C 92,95 98,80 102,70 C 105,62 104,50 96,40 C 94,37 96,33 100,34 C 108,37 114,46 112,56 C 110,65 106,78 102,95 C 100,105 103,115 108,122 Z" fill="#0B465F"/>
+                                    <circle cx="88" cy="38" r="9" fill="#A4603C"/>
+                                    <path d="M 104,118 C 90,132 68,142 42,148 C 38,149 37,143 41,141 Z" fill="#0B465F"/>
+                                    <path d="M 106,118 C 122,130 146,140 172,146 C 176,147 177,141 173,139 Z" fill="#0B465F"/>
+                                    <path d="M 25,152 Q 100,178 175,152" stroke="#5A7396" stroke-width="4"/>
+                                </svg>
+                                <div class="text-left">
+                                    <div class="font-cursive text-xl text-brand-deep leading-none font-bold">Vilunes</div>
+                                    <div class="font-title text-[8px] font-bold text-brand-slate tracking-widest uppercase">PILATES</div>
+                                </div>
+                            </div>
+
+                            <!-- CARD FOOTER CAPTION -->
+                            <div class="absolute bottom-4 left-4 right-4 text-white p-4 rounded-xl bg-brand-deep/80 backdrop-blur-sm border border-white/10">
+                                <p class="text-xs font-semibold text-brand-wood uppercase tracking-wider">Estrutura Nova e Climatizada</p>
+                                <p class="text-sm font-bold">Rua Riskallah Abib, 30 – Sala 12 (1º Andar)</p>
+                                <p class="text-xs text-gray-200">Nova Petrópolis, São Bernardo do Campo</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- BARRA DE CONFIANÇA (GRID 2x2 MOBILE, 4 COLUNAS DESKTOP) -->
+    <section class="bg-white py-8 border-y border-gray-100 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                
+                <!-- Card 1 -->
+                <div class="flex items-center gap-3.5 p-4 rounded-2xl bg-brand-offwhite border border-gray-100 hover:border-brand-slate/30 transition-colors">
+                    <div class="w-11 h-11 rounded-xl bg-brand-deep/10 text-brand-deep flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-user-doctor text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-title text-xs sm:text-sm font-bold text-brand-deep">100% Fisioterapeutas</h4>
+                        <p class="text-[11px] sm:text-xs text-gray-600 leading-snug">Atendimento clínico individualizado e seguro</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flex items-center gap-3.5 p-4 rounded-2xl bg-brand-offwhite border border-gray-100 hover:border-brand-slate/30 transition-colors">
+                    <div class="w-11 h-11 rounded-xl bg-brand-terracotta/10 text-brand-terracotta flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-heart-pulse text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-title text-xs sm:text-sm font-bold text-brand-deep">Corpo e Saúde Mental</h4>
+                        <p class="text-[11px] sm:text-xs text-gray-600 leading-snug">Força, mobilidade e alívio do estresse</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flex items-center gap-3.5 p-4 rounded-2xl bg-brand-offwhite border border-gray-100 hover:border-brand-slate/30 transition-colors">
+                    <div class="w-11 h-11 rounded-xl bg-brand-wood/20 text-brand-deep flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-id-card text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-title text-xs sm:text-sm font-bold text-brand-deep">Wellhub e TotalPass</h4>
+                        <p class="text-[11px] sm:text-xs text-gray-600 leading-snug">Benefícios corporativos e planos particulares</p>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flex items-center gap-3.5 p-4 rounded-2xl bg-brand-offwhite border border-gray-100 hover:border-brand-slate/30 transition-colors">
+                    <div class="w-11 h-11 rounded-xl bg-brand-slate/15 text-brand-deep flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-clock text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-title text-xs sm:text-sm font-bold text-brand-deep">Seg a Sex, 7h às 22h</h4>
+                        <p class="text-[11px] sm:text-xs text-gray-600 leading-snug">Horário flexível com hora marcada</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PARA QUEM É A VILUNES PILATES (4 CARDS DE IDENTIFICAÇÃO) -->
+    <section id="beneficios" class="py-16 sm:py-20 bg-brand-offwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-brand-terracotta text-xs sm:text-sm font-bold tracking-wider uppercase">Cuidado Personalizado</span>
+                <h2 class="font-title text-2xl sm:text-4xl font-extrabold text-brand-deep mt-1">Para quem é a Vilunes Pilates?</h2>
+                <p class="text-gray-600 mt-3 text-sm sm:text-base">Independente da sua idade ou condição física, nosso acompanhamento por fisioterapeutas adapta o método Pilates exatamente para o que seu corpo precisa.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1: Dores na Coluna & Reabilitação -->
+                <div class="bg-white rounded-3xl p-6 shadow-soft border border-gray-100 flex flex-col justify-between hover:shadow-xl transition-all group">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-red-50 text-brand-terracotta flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-bone text-2xl"></i>
+                        </div>
+                        <h3 class="font-title text-lg font-bold text-brand-deep mb-2">Dores na Coluna & Reabilitação</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm leading-relaxed">Alívio de dores nas costas, hérnia de disco, postura inadequada de trabalho e prevenção de lesões sob supervisão médica/clínica.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Tenho%20dores%20na%20coluna%20ou%20necessidade%20de%20reabilita%C3%A7%C3%A3o%20e%20gostaria%20de%20saber%20mais%20sobre%20o%20Pilates." target="_blank" class="text-xs font-bold text-brand-deep hover:text-brand-terracotta flex items-center gap-1">
+                            Quero tratar minhas dores &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Iniciantes & Sedentários -->
+                <div class="bg-white rounded-3xl p-6 shadow-soft border border-gray-100 flex flex-col justify-between hover:shadow-xl transition-all group">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-brand-deep flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-person-walking text-2xl"></i>
+                        </div>
+                        <h3 class="font-title text-lg font-bold text-brand-deep mb-2">Iniciantes & Sedentários</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm leading-relaxed">Ideal para quem quer começar a se movimentar com segurança, sem o ambiente barulhento de academias tradicionais.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Sou%20iniciante%20e%20gostaria%20de%20come%C3%A7ar%20a%20praticar%20Pilates%20na%20Vilunes." target="_blank" class="text-xs font-bold text-brand-deep hover:text-brand-terracotta flex items-center gap-1">
+                            Começar do zero &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 3: Rotina Intensa & Convênios -->
+                <div class="bg-white rounded-3xl p-6 shadow-soft border border-gray-100 flex flex-col justify-between hover:shadow-xl transition-all group">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-wa flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-building-user text-2xl"></i>
+                        </div>
+                        <h3 class="font-title text-lg font-bold text-brand-deep mb-2">Rotina Intensa (Wellhub / TotalPass)</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm leading-relaxed">Aproveite seus benefícios corporativos com horários flexíveis das 7h às 22h no centro do Nova Petrópolis em SBC.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Gostaria%20de%20usar%20meu%20plano%20Wellhub%20ou%20TotalPass%20na%20Vilunes%20Pilates." target="_blank" class="text-xs font-bold text-brand-deep hover:text-brand-terracotta flex items-center gap-1">
+                            Agendar via Wellhub/TotalPass &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 4: Público 60+ (Terceira Idade) -->
+                <div class="bg-white rounded-3xl p-6 shadow-soft border border-gray-100 flex flex-col justify-between hover:shadow-xl transition-all group">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-brand-wood flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-hands-holding-child text-2xl"></i>
+                        </div>
+                        <h3 class="font-title text-lg font-bold text-brand-deep mb-2">Público 60+ (Terceira Idade)</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm leading-relaxed">Exercícios sem impacto, foco no equilíbrio, fortalecimento articular, autonomia e prevenção de quedas.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Busco%20Pilates%20para%20p%C3%BAblico%2060%2B%20na%20Vilunes%20Pilates." target="_blank" class="text-xs font-bold text-brand-deep hover:text-brand-terracotta flex items-center gap-1">
+                            Saiba mais para 60+ &rarr;
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- BARRA DE TRIAGEM RÁPIDA DE 1 CLIQUE PARA WHATSAPP -->
+    <section class="bg-brand-deep py-10 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-6">
+                <span class="text-brand-wood text-xs uppercase font-bold tracking-widest">Agendamento Expresso</span>
+                <h3 class="font-title text-xl sm:text-2xl font-bold mt-1">Qual o seu objetivo principal hoje?</h3>
+                <p class="text-brand-slate text-xs sm:text-sm">Clique na opção abaixo para abrir o WhatsApp com sua mensagem pronta:</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Quero%20agendar%20minha%20Aula%20Experimental%20Gr%C3%A1tis." target="_blank" 
+                   class="flex items-center justify-between p-3.5 rounded-2xl bg-white/10 hover:bg-wa hover:text-white transition-all border border-white/10 text-xs sm:text-sm font-semibold group">
+                    <span>1. Aula Experimental Grátis</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+
+                <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Quero%20agendar%20utilizando%20Wellhub%20ou%20TotalPass." target="_blank" 
+                   class="flex items-center justify-between p-3.5 rounded-2xl bg-white/10 hover:bg-wa hover:text-white transition-all border border-white/10 text-xs sm:text-sm font-semibold group">
+                    <span>2. Usar Wellhub / TotalPass</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+
+                <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Procuro%20Pilates%20para%20Al%C3%ADvio%20de%20Dores%20e%20Reabilita%C3%A7%C3%A3o." target="_blank" 
+                   class="flex items-center justify-between p-3.5 rounded-2xl bg-white/10 hover:bg-wa hover:text-white transition-all border border-white/10 text-xs sm:text-sm font-semibold group">
+                    <span>3. Alívio de Dores / Reabilitação</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+
+                <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20para%20Pilates%2060%2B%20ou%20Iniciante." target="_blank" 
+                   class="flex items-center justify-between p-3.5 rounded-2xl bg-white/10 hover:bg-wa hover:text-white transition-all border border-white/10 text-xs sm:text-sm font-semibold group">
+                    <span>4. Pilates 60+ e Iniciantes</span>
+                    <i class="fa-solid fa-chevron-right text-xs opacity-70 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODALIDADES & METODOLOGIA -->
+    <section id="modalidades" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-brand-terracotta text-xs sm:text-sm font-bold tracking-wider uppercase">Metodologia Completa</span>
+                <h2 class="font-title text-2xl sm:text-4xl font-extrabold text-brand-deep mt-1">Nossas Modalidades e Serviços</h2>
+                <p class="text-gray-600 mt-2 text-sm sm:text-base">Aparelhos modernos, acessórios versáteis e condutas científicas ministradas individualmente por fisioterapeutas.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Mod 1 -->
+                <div class="p-6 rounded-3xl bg-brand-offwhite border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-brand-deep text-white flex items-center justify-center mb-4 font-bold">01</div>
+                        <h3 class="font-title text-base sm:text-lg font-bold text-brand-deep mb-2">Pilates Clássico em Aparelhos</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">Sessões em Reformer, Cadillac, Step Chair e Ladder Barrel Kauffer para alinhamento e tonificação muscular.</p>
+                    </div>
+                    <ul class="mt-4 space-y-1.5 text-xs text-gray-700">
+                        <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-terracotta"></i> Turmas reduzidas</li>
+                        <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-terracotta"></i> Ritmo individualizado</li>
+                    </ul>
+                </div>
+
+                <!-- Mod 2 -->
+                <div class="p-6 rounded-3xl bg-brand-offwhite border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-brand-deep text-white flex items-center justify-center mb-4 font-bold">02</div>
+                        <h3 class="font-title text-base sm:text-lg font-bold text-brand-deep mb-2">Pilates Solo & Acessórios</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">Exercícios de Mat Pilates utilizando bolas, faixas elásticas, magic circles e rolos de soltura miofascial.</p>
+                    </div>
+                    <ul class="mt-4 space-y-1.5 text-xs text-gray-700">
+                        <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-terracotta"></i> Consciência corporal</li>
+                        <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-terracotta"></i> Fortalecimento do Core</li>
+                    </ul>
+                </div>
+
+                <!-- Mod 3 -->
+                <div class="p-6 rounded-3xl bg-brand-offwhite border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-brand-deep text-white flex items-center justify-center mb-4 font-bold">03</div>
+                        <h3 class="font-title text-base sm:text-lg font-bold text-brand-deep mb-2">Reabilitação & Coluna</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">Foco em tratamento pós-operatório, escoliose, lombalgia, cervicalgia e prevenção de dores crônicas.</p>
+                    </div>
+                    <ul class="mt-4 space-y-1.5 text-xs text-gray-700">
+                        <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-terracotta"></i> Avaliação postura clínica</li>
+                        <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-terracotta"></i> Sem movimentos bruscos</li>
+                    </ul>
+                </div>
+
+                <!-- Mod 4 -->
+                <div class="p-6 rounded-3xl bg-brand-offwhite border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-brand-deep text-white flex items-center justify-center mb-4 font-bold">04</div>
+                        <h3 class="font-title text-base sm:text-lg font-bold text-brand-deep mb-2">Respiração & Saúde Mental</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">Ambiente calmo para desacelerar da rotina, reduzir a ansiedade e reconectar mente e corpo.</p>
+                    </div>
+                    <ul class="mt-4 space-y-1.5 text-xs text-gray-700">
+                        <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-terracotta"></i> Redução de estresse</li>
+                        <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-terracotta"></i> Bem-estar integral</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- NOSSA ESTRUTURA NO NOVA PETRÓPOLIS (GALERIA REAL DO ESTÚDIO) -->
+    <section id="estrutura" class="py-16 sm:py-20 bg-brand-offwhite border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <span class="text-brand-terracotta text-xs sm:text-sm font-bold tracking-wider uppercase">Ambiente Novo e Acolhedor</span>
+                    <h2 class="font-title text-2xl sm:text-4xl font-extrabold text-brand-deep mt-1">Conheça o Estúdio Vilunes Pilates</h2>
+                </div>
+                <p class="text-gray-600 text-xs sm:text-sm max-w-md">Localização estratégica no bairro Nova Petrópolis em São Bernardo do Campo, espaço novíssimo, limpo e preparado para seu conforto.</p>
+            </div>
+
+            <!-- GALERIA GRID 3 FOTOS FOCADAS -->
+            <div class="grid md:grid-cols-3 gap-6">
+                
+                <!-- Foto 1: Recepção e Identidade -->
+                <div class="group relative rounded-3xl overflow-hidden shadow-md bg-white border border-gray-100">
+                    <div class="h-64 sm:h-72 bg-brand-deep relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&w=800&q=80" 
+                             alt="Recepção Vilunes Pilates Nova Petrópolis SBC" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             onerror="this.onerror=null; this.src='https://placehold.co/800x600/0B465F/FFFFFF?text=Recepcao+Vilunes+Pilates';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-title font-bold text-brand-deep text-base">Recepção Acolhedora</h4>
+                        <p class="text-xs text-gray-600 mt-1">Ambiente climatizado, atendimento pontual e recepção confortável no 1º andar.</p>
+                    </div>
+                </div>
+
+                <!-- Foto 2: Sala Principal de Equipamentos Clássicos -->
+                <div class="group relative rounded-3xl overflow-hidden shadow-md bg-white border border-gray-100">
+                    <div class="h-64 sm:h-72 bg-brand-deep relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80" 
+                             alt="Equipamentos Reformer e Cadillac Vilunes Pilates" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             onerror="this.onerror=null; this.src='https://placehold.co/800x600/0B465F/FFFFFF?text=Sala+Pilates+Cadillac';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-title font-bold text-brand-deep text-base">Aparelhos Clássicos Kauffer</h4>
+                        <p class="text-xs text-gray-600 mt-1">Equipamentos novos de padrão internacional para máxima precisão e segurança no treino.</p>
+                    </div>
+                </div>
+
+                <!-- Foto 3: Espaço de Solo e Acessórios Especializados -->
+                <div class="group relative rounded-3xl overflow-hidden shadow-md bg-white border border-gray-100">
+                    <div class="h-64 sm:h-72 bg-brand-deep relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80" 
+                             alt="Ladder Barrel e Step Chair Vilunes Pilates SBC" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             onerror="this.onerror=null; this.src='https://placehold.co/800x600/0B465F/FFFFFF?text=Ladder+Barrel+Vilunes';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-title font-bold text-brand-deep text-base">Espaço de Flexibilidade & Mobilidade</h4>
+                        <p class="text-xs text-gray-600 mt-1">Espaço amplo e higienizado para soltura de cadeias musculares e equilíbrio.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SOBRE A VILUNES PILATES (3 PILARES INSTITUCIONAIS COM LOGO OFICIAL) -->
+    <section id="sobre" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- EMBLEMA INSTITUCIONAL COM LOGO OFICIAL -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative p-8 rounded-3xl bg-brand-offwhite border border-gray-200 shadow-lg text-center max-w-sm w-full">
+                        <div class="w-24 h-24 mx-auto mb-4 bg-white rounded-2xl shadow-sm p-2 flex items-center justify-center border border-gray-100">
+                            <!-- LOGO OFICIAL VILUNES PILATES -->
+                            <svg class="w-full h-full" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M 30,145 Q 80,185 170,140 Q 120,110 30,145 Z" fill="#5A7396" opacity="0.25"/>
+                                <path d="M 95,115 C 92,95 98,80 102,70 C 105,62 104,50 96,40 C 94,37 96,33 100,34 C 108,37 114,46 112,56 C 110,65 106,78 102,95 Z" fill="#0B465F"/>
+                                <circle cx="88" cy="38" r="9" fill="#A4603C"/>
+                                <path d="M 104,118 C 90,132 68,142 42,148 Z" fill="#0B465F"/>
+                                <path d="M 106,118 C 122,130 146,140 172,146 Z" fill="#0B465F"/>
+                                <path d="M 25,152 Q 100,178 175,152" stroke="#5A7396" stroke-width="4"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-cursive text-3xl text-brand-deep font-bold">Vilunes Pilates</h3>
+                        <p class="text-xs font-bold text-brand-slate uppercase tracking-widest mt-0.5">Nova Petrópolis • SBC</p>
+                        <p class="text-xs text-gray-600 mt-4 leading-relaxed">"Movimento com propósito, saúde clínica e acolhimento em cada detalhe."</p>
+                        
+                        <div class="mt-6 pt-4 border-t border-gray-200 grid grid-cols-2 gap-2 text-left text-xs">
+                            <div>
+                                <span class="block font-bold text-brand-deep">Endereço:</span>
+                                <span class="text-gray-600">Rua Riskallah Abib, 30</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-brand-deep">Sala:</span>
+                                <span class="text-gray-600">Sala 12 (1º Andar)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TEXTO & 3 PILARES -->
+                <div class="lg:col-span-7 space-y-6">
+                    <span class="text-brand-terracotta text-xs sm:text-sm font-bold tracking-wider uppercase">Nossa Filosofia</span>
+                    <h2 class="font-title text-2xl sm:text-4xl font-extrabold text-brand-deep">Mais do que um estúdio: um espaço de saúde, equilíbrio e reabilitação.</h2>
+                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
+                        A <strong>Vilunes Pilates</strong> nasceu com a missão de oferecer uma prática de Pilates verdadeiramente humanizada e embasada pela fisioterapia. Acreditamos que cada corpo possui uma história e necessidades únicas — por isso, nossas aulas são personalizadas e focadas no bem-estar integral.
+                    </p>
+
+                    <!-- 3 PILARES -->
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-brand-deep/10 text-brand-deep flex items-center justify-center shrink-0 font-bold">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-brand-deep text-sm sm:text-base">1. Condução 100% por Fisioterapeutas</h4>
+                                <p class="text-xs sm:text-sm text-gray-600">Seu treino é elaborado por profissionais capacitados para adaptar cada exercício à sua coluna e limitações.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-brand-terracotta/10 text-brand-terracotta flex items-center justify-center shrink-0 font-bold">
+                                <i class="fa-solid fa-gem"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-brand-deep text-sm sm:text-base">2. Equipamentos e Espaço de Alto Padrão</h4>
+                                <p class="text-xs sm:text-sm text-gray-600">Aparelhos modernos e ambiente silencioso para proporcionar foco e relaxamento completo durante a aula.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-wa/10 text-wa flex items-center justify-center shrink-0 font-bold">
+                                <i class="fa-solid fa-handshake"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-brand-deep text-sm sm:text-base">3. Acessibilidade com Wellhub & TotalPass</h4>
+                                <p class="text-xs sm:text-sm text-gray-600">Aceitamos benefícios corporativos para você manter a constância na sua rotina de cuidados sem complicação.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- COMO FUNCIONA SUA PRIMEIRA AULA (3 PASSOS CRO SIMPLES) -->
+    <section class="py-16 bg-brand-offwhite border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-terracotta text-xs font-bold tracking-wider uppercase">Simples e Sem Compromisso</span>
+                <h2 class="font-title text-2xl sm:text-3xl font-extrabold text-brand-deep mt-1">Como funciona sua primeira aula?</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 relative">
+                
+                <!-- Passo 1 -->
+                <div class="bg-white p-6 rounded-3xl border border-gray-100 text-center relative shadow-xs">
+                    <div class="w-14 h-14 mx-auto rounded-full bg-brand-deep text-white font-title text-xl font-extrabold flex items-center justify-center mb-4">
+                        01
+                    </div>
+                    <h3 class="font-title font-bold text-brand-deep text-base mb-2">Chame no WhatsApp</h3>
+                    <p class="text-xs text-gray-600">Clique em qualquer botão do site e fale com nossa equipe para escolher o melhor horário para você.</p>
+                </div>
+
+                <!-- Passo 2 -->
+                <div class="bg-white p-6 rounded-3xl border border-gray-100 text-center relative shadow-xs">
+                    <div class="w-14 h-14 mx-auto rounded-full bg-brand-terracotta text-white font-title text-xl font-extrabold flex items-center justify-center mb-4">
+                        02
+                    </div>
+                    <h3 class="font-title font-bold text-brand-deep text-base mb-2">Aula Experimental Grátis</h3>
+                    <p class="text-xs text-gray-600">Venha até nosso estúdio no Nova Petrópolis em SBC e experimente a prática de Pilates de forma gratuita.</p>
+                </div>
+
+                <!-- Passo 3 -->
+                <div class="bg-white p-6 rounded-3xl border border-gray-100 text-center relative shadow-xs">
+                    <div class="w-14 h-14 mx-auto rounded-full bg-wa text-white font-title text-xl font-extrabold flex items-center justify-center mb-4">
+                        03
+                    </div>
+                    <h3 class="font-title font-bold text-brand-deep text-base mb-2">Avaliação & Plano sob Medida</h3>
+                    <p class="text-xs text-gray-600">Nossa fisioterapeuta avalia sua postura e traça um plano de aula sob medida para seus objetivos.</p>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Quero%20agendar%20minha%20aula%20experimental%20gratuita." target="_blank" 
+                   class="inline-flex items-center gap-2 bg-wa hover:bg-wa-hover text-white px-8 py-3.5 rounded-full font-bold text-sm shadow-md transition-transform hover:scale-105">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    Quero Minha Aula Experimental Grátis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCALIZAÇÃO, MAPA INTERATIVO E HORÁRIOS -->
+    <section id="localizacao" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-10 items-stretch">
+                
+                <!-- DADOS DE CONTATO E HORÁRIOS -->
+                <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+                    <div>
+                        <span class="text-brand-terracotta text-xs font-bold tracking-wider uppercase">Fácil Acesso</span>
+                        <h2 class="font-title text-2xl sm:text-4xl font-extrabold text-brand-deep mt-1">Onde Estamos</h2>
+                        <p class="text-gray-600 text-sm mt-2">Localizado no coração do bairro Nova Petrópolis, em São Bernardo do Campo - SP.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Endereço -->
+                        <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-brand-offwhite border border-gray-100">
+                            <div class="w-10 h-10 rounded-xl bg-brand-deep text-white flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-brand-deep text-sm">Endereço Completo</h4>
+                                <p class="text-xs text-gray-700 font-medium">Rua Riskallah Abib, 30 – Sala 12 (1º Andar)</p>
+                                <p class="text-xs text-gray-500">Nova Petrópolis, São Bernardo do Campo – SP, CEP 09771-100</p>
+                            </div>
+                        </div>
+
+                        <!-- Horários -->
+                        <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-brand-offwhite border border-gray-100">
+                            <div class="w-10 h-10 rounded-xl bg-brand-terracotta text-white flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-brand-deep text-sm">Horário de Funcionamento</h4>
+                                <p class="text-xs text-gray-700 font-medium">Segunda a Sexta-feira: 07:00 às 22:00</p>
+                                <p class="text-xs text-gray-500">Atendimento exclusivamente com hora marcada.</p>
+                            </div>
+                        </div>
+
+                        <!-- Canais Diretos -->
+                        <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-brand-offwhite border border-gray-100">
+                            <div class="w-10 h-10 rounded-xl bg-wa text-white flex items-center justify-center shrink-0">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-title font-bold text-brand-deep text-sm">WhatsApp & Instagram</h4>
+                                <p class="text-xs text-gray-700 font-medium">WhatsApp: (11) 94220-8087</p>
+                                <p class="text-xs text-gray-500">Instagram: @vilunespilates</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BOTÕES NAVEGAÇÃO GPS (GOOGLE MAPS & WAZE) -->
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <a href="https://maps.google.com/?q=Rua+Riskallah+Abib+30+Nova+Petropolis+Sao+Bernardo+do+Campo" target="_blank" 
+                           class="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 p-3 rounded-xl text-xs font-bold transition-colors">
+                            <i class="fa-map-marked-alt text-brand-deep"></i> Google Maps
+                        </a>
+                        <a href="https://waze.com/ul?q=Rua%20Riskallah%20Abib%2030%20Nova%20Petropolis%20Sao%20Bernardo%20do%20Campo" target="_blank" 
+                           class="flex items-center justify-center gap-2 bg-sky-50 hover:bg-sky-100 text-sky-800 p-3 rounded-xl text-xs font-bold transition-colors">
+                            <i class="fa-solid fa-location-arrow text-sky-600"></i> Waze GPS
+                        </a>
+                    </div>
+                </div>
+
+                <!-- MAPA INTERATIVO LEAFLET / SBC -->
+                <div class="lg:col-span-7 rounded-3xl overflow-hidden shadow-md border border-gray-200 bg-gray-100 min-h-[350px] relative">
+                    <div id="leaflet-map" class="w-full h-full min-h-[380px] z-10"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ ACORDEÃO INTERATIVO (6 PERGUNTAS REAIS) -->
+    <section id="faq" class="py-16 sm:py-24 bg-brand-offwhite border-t border-gray-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-brand-terracotta text-xs font-bold tracking-wider uppercase">Tire Suas Dúvidas</span>
+                <h2 class="font-title text-2xl sm:text-4xl font-extrabold text-brand-deep mt-1">Perguntas Frequentes (FAQ)</h2>
+                <p class="text-gray-600 text-sm mt-2">Tudo o que você precisa saber antes de fazer sua primeira aula na Vilunes Pilates.</p>
+            </div>
+
+            <div class="space-y-4" id="faq-container">
+                
+                <!-- FAQ 1 -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs">
+                    <button class="faq-btn w-full px-6 py-4 text-left font-title font-bold text-brand-deep flex justify-between items-center text-sm sm:text-base">
+                        <span>1. Quem pode praticar Pilates na Vilunes?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-slate transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-50 pt-3">
+                        O Pilates é indicado para todas as idades e níveis de condicionamento. Na Vilunes, como as aulas são conduzidas por fisioterapeutas, atendemos desde iniciantes e sedentários até pessoas em reabilitação de dores na coluna e idosos (60+).
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs">
+                    <button class="faq-btn w-full px-6 py-4 text-left font-title font-bold text-brand-deep flex justify-between items-center text-sm sm:text-base">
+                        <span>2. Como funciona a aceitação de Wellhub (Gympass) e TotalPass?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-slate transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-50 pt-3">
+                        Aceitamos alunos dos aplicativos Wellhub (antigo Gympass) e TotalPass! Basta entrar em contato pelo nosso WhatsApp para verificar os planos compatíveis e agendar o horário fixo ou avulso das suas sessões.
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs">
+                    <button class="faq-btn w-full px-6 py-4 text-left font-title font-bold text-brand-deep flex justify-between items-center text-sm sm:text-base">
+                        <span>3. A aula experimental é realmente gratuita?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-slate transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-50 pt-3">
+                        Sim! Oferecemos 1 aula experimental 100% gratuita para que você possa conhecer nossa estrutura no Nova Petrópolis (SBC), a equipe de fisioterapeutas e a dinâmica do nosso método sem nenhum compromisso.
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs">
+                    <button class="faq-btn w-full px-6 py-4 text-left font-title font-bold text-brand-deep flex justify-between items-center text-sm sm:text-base">
+                        <span>4. Tenho hérnia de disco / dores crônicas. Posso fazer?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-slate transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-50 pt-3">
+                        Com certeza. Esse é um dos nossos maiores diferenciais. Como somos fisioterapeutas, fazemos uma avaliação postural e adaptamos os exercícios especificamente para proteger sua coluna e aliviar as dores sem risco de lesão.
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs">
+                    <button class="faq-btn w-full px-6 py-4 text-left font-title font-bold text-brand-deep flex justify-between items-center text-sm sm:text-base">
+                        <span>5. Quantos alunos praticam por horário?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-slate transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-50 pt-3">
+                        Trabalhamos com turmas reduzidas para garantir que o profissional dê atenção individual a cada aluno, corrigindo a postura e ajustando as cargas dos aparelhos com total segurança.
+                    </div>
+                </div>
+
+                <!-- FAQ 6 -->
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs">
+                    <button class="faq-btn w-full px-6 py-4 text-left font-title font-bold text-brand-deep flex justify-between items-center text-sm sm:text-base">
+                        <span>6. Qual roupa devo usar na aula?</span>
+                        <i class="fa-solid fa-chevron-down text-brand-slate transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-50 pt-3">
+                        Recomendamos roupas confortáveis de ginástica ou legging/bermuda que permitam boa movimentação do corpo, além de meias (preferencialmente antiderrapantes).
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- DOBRA FINAL DE FECHAMENTO (CHAMADA PRINCIPAL) -->
+    <section class="py-16 sm:py-20 bg-gradient-to-br from-brand-deep via-brand-dark to-brand-deep text-white text-center relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
+            
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-brand-wood text-xs font-semibold">
+                <i class="fa-solid fa-star text-amber-400"></i> Transforme sua Qualidade de Vida em SBC
+            </div>
+
+            <h2 class="font-title text-3xl sm:text-5xl font-extrabold leading-tight">
+                Pronto para viver sem dores e com mais disposição?
+            </h2>
+
+            <p class="text-gray-200 text-sm sm:text-base max-w-2xl mx-auto font-light">
+                Agende agora sua aula experimental gratuita na Vilunes Pilates. Atendimento por fisioterapeutas no Nova Petrópolis (SBC). Aceitamos Wellhub e TotalPass.
+            </p>
+
+            <div class="pt-4">
+                <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Vilunes%20Pilates%20e%20gostaria%20de%20agendar%20minha%20aula%20experimental%20gratuita." 
+                   target="_blank" 
+                   class="inline-flex items-center gap-3 bg-wa hover:bg-wa-hover text-white text-base sm:text-lg font-bold px-9 py-4 rounded-2xl shadow-glow transition-all transform hover:scale-105">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Agendar Aula Grátis no WhatsApp</span>
+                </a>
+            </div>
+
+            <p class="text-xs text-brand-slate pt-2">
+                <i class="fa-solid fa-lock text-xs mr-1"></i> Seus dados estão seguros. Sem spams.
+            </p>
+        </div>
+    </section>
+
+    <!-- RODAPÉ COMPLETO COM LOGOTIPO OFICIAL -->
+    <footer class="bg-white border-t border-gray-200 pt-12 pb-8 text-gray-600 text-xs sm:text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-gray-100">
+                
+                <!-- COLUNA 1: LOGOTIPO OFICIAL E SOBRE -->
+                <div class="space-y-4 md:col-span-2">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-10 h-10" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="200" height="200" rx="36" fill="#FFFFFF"/>
+                            <path d="M 30,145 Q 80,185 170,140 Q 120,110 30,145 Z" fill="#5A7396" opacity="0.2"/>
+                            <path d="M 95,115 C 92,95 98,80 102,70 C 105,62 104,50 96,40 C 94,37 96,33 100,34 C 108,37 114,46 112,56 C 110,65 106,78 102,95 Z" fill="#0B465F"/>
+                            <circle cx="88" cy="38" r="9" fill="#A4603C"/>
+                            <path d="M 104,118 C 90,132 68,142 42,148 Z" fill="#0B465F"/>
+                            <path d="M 106,118 C 122,130 146,140 172,146 Z" fill="#0B465F"/>
+                            <path d="M 25,152 Q 100,178 175,152" stroke="#5A7396" stroke-width="4"/>
+                        </svg>
+                        <div class="flex flex-col">
+                            <span class="font-cursive text-2xl text-brand-deep font-bold leading-none">Vilunes</span>
+                            <span class="font-title text-[9px] font-bold text-brand-slate tracking-widest uppercase">PILATES</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 max-w-sm leading-relaxed">
+                        Estúdio de Pilates conduzido por fisioterapeutas no Bairro Nova Petrópolis em São Bernardo do Campo - SP. Foco na postura, alívio de dores, tonificação e saúde mental.
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="https://instagram.com/vilunespilates" target="_blank" class="w-8 h-8 rounded-full bg-brand-offwhite text-brand-deep flex items-center justify-center hover:bg-brand-deep hover:text-white transition-colors" title="Instagram Vilunes Pilates">
+                            <i class="fa-brands fa-instagram text-base"></i>
+                        </a>
+                        <a href="https://wa.me/5511942208087" target="_blank" class="w-8 h-8 rounded-full bg-wa/10 text-wa flex items-center justify-center hover:bg-wa hover:text-white transition-colors" title="WhatsApp Vilunes Pilates">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- COLUNA 2: ENDEREÇO & CONTATO -->
+                <div class="space-y-2">
+                    <h4 class="font-title font-bold text-brand-deep text-xs uppercase tracking-wider mb-3">Estúdio SBC</h4>
+                    <p class="text-xs text-gray-600">Rua Riskallah Abib, 30 – Sala 12</p>
+                    <p class="text-xs text-gray-600">Bairro Nova Petrópolis (1º Andar)</p>
+                    <p class="text-xs text-gray-600">São Bernardo do Campo – SP</p>
+                    <p class="text-xs font-semibold text-brand-deep pt-1">CEP: 09771-100</p>
+                </div>
+
+                <!-- COLUNA 3: FUNCIONAMENTO & CONVÊNIOS -->
+                <div class="space-y-2">
+                    <h4 class="font-title font-bold text-brand-deep text-xs uppercase tracking-wider mb-3">Atendimento</h4>
+                    <p class="text-xs text-gray-600">Segunda a Sexta: 07h às 22h</p>
+                    <p class="text-xs text-gray-600">Com hora marcada</p>
+                    <div class="pt-2 flex flex-wrap gap-1.5">
+                        <span class="px-2 py-0.5 rounded bg-gray-100 text-[10px] font-bold text-gray-700">Wellhub</span>
+                        <span class="px-2 py-0.5 rounded bg-gray-100 text-[10px] font-bold text-gray-700">TotalPass</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- COPYRIGHT & DIREITOS -->
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-3">
+                <p>&copy; 2026 Vilunes Pilates. Todos os direitos reservados. Nova Petrópolis - São Bernardo do Campo/SP.</p>
+                <p>Desenvolvido com foco em CRO & Fisioterapia</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÃO FLUTUANTE DO WHATSAPP COM STATUS ONLINE -->
+    <div class="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2">
+        
+        <!-- TOOLTIP RESPONSIVA -->
+        <div class="hidden sm:flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-lg border border-gray-100 text-xs font-semibold text-gray-800 animate-bounce">
+            <span class="relative flex h-2.5 w-2.5">
+                <span class="pulse-online absolute inline-flex h-full w-full rounded-full bg-wa opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-wa"></span>
+            </span>
+            <span>Atendimento Online via WhatsApp</span>
+        </div>
+
+        <a href="https://wa.me/5511942208087?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Vilunes%20Pilates%20e%20gostaria%20de%20agendar%20minha%20aula%20experimental%20gratuita." 
+           target="_blank" 
+           aria-label="Falar com Vilunes Pilates no WhatsApp"
+           class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-wa hover:bg-wa-hover text-white flex items-center justify-center shadow-glow transform hover:scale-110 transition-all">
+            <i class="fa-brands fa-whatsapp text-3xl"></i>
+            <!-- Online status badge dot -->
+            <span class="absolute top-1 right-1 w-4 h-4 bg-emerald-400 border-2 border-white rounded-full"></span>
+        </a>
+    </div>
+
+    <!-- JAVASCRIPT LÓGICA E INTERATIVIDADE -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when clicking any link
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+                });
+            }
+
+            // 2. FAQ Accordion Logic
+            const faqButtons = document.querySelectorAll('.faq-btn');
+            faqButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    // Close other open answers
+                    document.querySelectorAll('.faq-answer').forEach(el => {
+                        if (el !== answer) {
+                            el.classList.add('hidden');
+                        }
+                    });
+                    document.querySelectorAll('.faq-btn i').forEach(ic => {
+                        if (ic !== icon) {
+                            ic.classList.remove('rotate-180');
+                        }
+                    });
+
+                    // Toggle current answer
+                    answer.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+
+            // 3. Leaflet Map Initialization (Rua Riskallah Abib, 30, Nova Petrópolis SBC)
+            try {
+                // Coordinates for Nova Petrópolis, São Bernardo do Campo
+                const lat = -23.7086;
+                const lng = -46.5492;
+
+                const map = L.map('leaflet-map', {
+                    center: [lat, lng],
+                    zoom: 16,
+                    scrollWheelZoom: false
+                });
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);
+
+                // Custom icon for Vilunes Pilates
+                const customIcon = L.divIcon({
+                    className: 'custom-map-pin',
+                    html: `
+                        <div style="background-color: #0B465F; color: white; padding: 8px 12px; border-radius: 20px; font-weight: bold; font-size: 11px; white-space: nowrap; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-family: sans-serif;">
+                            📍 Vilunes Pilates (Sala 12)
+                        </div>
+                    `,
+                    iconSize: [160, 40],
+                    iconAnchor: [80, 20]
+                });
+
+                L.marker([lat, lng], { icon: customIcon }).addTo(map)
+                    .bindPopup('<b>Vilunes Pilates</b><br>Rua Riskallah Abib, 30 – Sala 12<br>Nova Petrópolis, SBC')
+                    .openPopup();
+            } catch (err) {
+                console.warn('Leaflet map failed to initialize:', err);
+            }
+        });
+    </script>
+</body>
+</html>
